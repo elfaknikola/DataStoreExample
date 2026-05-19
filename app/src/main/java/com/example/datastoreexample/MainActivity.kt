@@ -1,0 +1,39 @@
+package com.example.datastoreexample
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.datastoreexample.data.datastore.settingsDataStore
+import com.example.datastoreexample.data.repository.SettingsRepository
+import com.example.datastoreexample.ui.screen.SettingsScreen
+import com.example.datastoreexample.ui.theme.DataStoreExampleTheme
+import com.example.datastoreexample.viewmodel.SettingsViewModel
+import com.example.datastoreexample.viewmodel.SettingsViewModelFactory
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val repository = SettingsRepository(
+            dataStore = applicationContext.settingsDataStore
+        )
+
+        val factory = SettingsViewModelFactory(repository)
+
+        setContent {
+            val viewModel: SettingsViewModel = viewModel(factory = factory)
+
+            SettingsScreen(viewModel = viewModel)
+        }
+    }
+}
+
